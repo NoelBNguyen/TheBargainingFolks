@@ -1,11 +1,15 @@
 package com.tbf.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "user_local_test")
@@ -20,16 +24,21 @@ public class User {
 	private String fName;
 	private String lName;
 	
+	@Column (name="DATE_TIME")
+	@CreationTimestamp
+	private Date joinDate;
+	
 	public User() {
 		
 	}
 	
-	public User(String username, String password, String email, String fName, String lName) {
+	public User(String username, String password, String email, String fName, String lName, Date joinDate) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.fName = fName;
 		this.lName = lName;
+		this.joinDate = joinDate;
 	}
 	
 	public long getId() {
@@ -74,6 +83,14 @@ public class User {
 		this.lName = lName;
 	}
 	
+	public Date getJoinDate() {
+		return joinDate;
+	}
+
+	public void setJoinDate(Date joinDate) {
+		this.joinDate = joinDate;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", fName="
