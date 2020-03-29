@@ -10,4 +10,4 @@ public class TheBargainingFolksApplication {
 		SpringApplication.run(TheBargainingFolksApplication.class, args);
 	}
 
-}
+} 
