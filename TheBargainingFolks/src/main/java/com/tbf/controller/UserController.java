@@ -22,7 +22,7 @@ import com.tbf.repository.UserRepository;
 import com.tbf.exception.ResourceNotFoundException;
 import com.tbf.model.User;
 
-@RestController //
+@RestController
 @CrossOrigin(origins = "http://localhost:4200")	
 @RequestMapping("/api/test")
 public class UserController {
