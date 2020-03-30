@@ -1,5 +1,6 @@
 package com.tbf.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,23 @@ public class ListingController {
 		return ResponseEntity.ok().body(listing);
 	}
 	
+	
+	@GetMapping("/listings/search/{subStr}")
+	public List<Listing> getListingBySearch(@PathVariable(value="subStr") String search) throws ResourceNotFoundException {
+		
+		List<Listing> allResults = listingRepository.findAll();
+		List<Listing> searchResults = new ArrayList<Listing>();
+		
+		for(Listing result : allResults) {
+			if (result.getTitle().contains(search)) {
+				searchResults.add(result);
+			}
+		}
+		
+		return searchResults;
+	}
+			
+	
 	@PostMapping("/listings")
 	public Listing createListing(@Valid @RequestBody Listing listing) {
 		return listingRepository.save(listing);
@@ -60,6 +78,7 @@ public class ListingController {
 		listing.setQuality(listingDetails.getQuality());
 		listing.setDescription(listingDetails.getDescription());
 		listing.setPrice(listingDetails.getPrice());
+		listing.setImg(listingDetails.getImg());
 		final Listing updatedListing = listingRepository.save(listing);
 		return ResponseEntity.ok(updatedListing);
 	}
