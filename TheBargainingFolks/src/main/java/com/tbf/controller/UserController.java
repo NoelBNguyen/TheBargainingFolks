@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tbf.repository.UserRepository;
 import com.tbf.exception.ResourceNotFoundException;
+import com.tbf.model.LoginForm;
 import com.tbf.model.User;
 
 @RestController
@@ -41,6 +43,11 @@ public class UserController {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
 		return ResponseEntity.ok().body(user);
+	}
+	
+	@PostMapping("/users/login")
+	public User getUserForLogin(@RequestBody LoginForm log) {
+		return userRepository.checkValidLogin(log.getEmail(), log.getPassword());
 	}
 	
 	@PostMapping("/users")
