@@ -50,6 +50,18 @@ public class UserController {
 		return userRepository.checkValidLogin(log.getEmail(), log.getPassword());
 	}
 	
+	/*
+	System.out.println("Checking Login for: " + log.getEmail() + " " + log.getPassword());
+	User checkUser = userRepository.checkValidLogin(log.getEmail(), log.getPassword());
+	
+	if (checkUser == null) {
+		System.out.println("Not a valid login");
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	System.out.println("Valid login found");
+	return new ResponseEntity<User>(checkUser, HttpStatus.OK);
+	*/
+	
 	@PostMapping("/users")
 	public User createUser(@Valid @RequestBody User user) {
 		return userRepository.save(user);
@@ -58,6 +70,8 @@ public class UserController {
 	@PutMapping("/users/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable(value="id") Long userId,
 			@Valid @RequestBody User userDetails) throws ResourceNotFoundException{
+		System.out.println("Updating a user here!!!!!");
+		//User userDetails = (User)userJson;
 		
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
