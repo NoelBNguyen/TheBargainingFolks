@@ -23,16 +23,22 @@ public class Listing {
 	private String quality;
 	private String description;
 	private Double price;
+	private byte[] img;
 	
 	@CreationTimestamp
 	private Date uploadTime;
+	
+	
+	//private long buyerId;
+	//private String status;
+	//private Date finalizedDate;
 	
 	public Listing() {
 		
 	}
 	
 	public Listing(long sellerId, String title, String category, String quality, String description, Double price,
-			Date uploadTime) {
+			Date uploadTime, byte[] img) {
 		this.sellerId = sellerId;
 		this.title = title;
 		this.category = category;
@@ -40,6 +46,7 @@ public class Listing {
 		this.description = description;
 		this.price = price;
 		this.uploadTime = new Date();
+		this.img = img;
 	}
 
 	public long getId() {
@@ -104,6 +111,14 @@ public class Listing {
 
 	public void setUploadTime(Date uploadTime) {
 		this.uploadTime = uploadTime;
+	}
+
+	public byte[] getImg() {
+		return img;
+	}
+
+	public void setImg(byte[] img) {
+		this.img = img;
 	}
 
 	@Override

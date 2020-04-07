@@ -24,21 +24,22 @@ public class User {
 	private String fName;
 	private String lName;
 	
+	/*
 	@Column (name="DATE_TIME")
 	@CreationTimestamp
 	private Date joinDate;
+	*/
 	
 	public User() {
 		
 	}
 	
-	public User(String username, String password, String email, String fName, String lName, Date joinDate) {
+	public User(String username, String password, String email, String fName, String lName) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.fName = fName;
 		this.lName = lName;
-		this.joinDate = joinDate;
 	}
 	
 	public long getId() {
@@ -83,13 +84,14 @@ public class User {
 		this.lName = lName;
 	}
 	
+	/*
 	public Date getJoinDate() {
 		return joinDate;
 	}
 
 	public void setJoinDate(Date joinDate) {
 		this.joinDate = joinDate;
-	}
+	}*/
 
 	@Override
 	public String toString() {
