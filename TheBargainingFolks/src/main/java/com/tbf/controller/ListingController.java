@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tbf.repository.ListingRepository;
 import com.tbf.exception.ResourceNotFoundException;
 import com.tbf.model.Listing;
+import com.tbf.model.UserIdData;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")	
@@ -90,11 +91,11 @@ public class ListingController {
 	
 	@PutMapping("listings/purchase/{id}")
 	public ResponseEntity<Listing> purchaseListing(@PathVariable(value="id") Long listingId,
-			@RequestBody long buyerId) throws ResourceNotFoundException{
+			@RequestBody UserIdData buyObj) throws ResourceNotFoundException{
 		Listing listing = listingRepository.findById(listingId)
 				.orElseThrow(() -> new ResourceNotFoundException("Listing not found for this id :: " + listingId));
 		listing.setStatus("sold");
-		listing.setBuyerId(buyerId);
+		listing.setBuyerId(buyObj.getIdData());
 		//listing.setResolvedTime is called automatically
 		final Listing updatedListing = listingRepository.save(listing);
 		return ResponseEntity.ok(updatedListing);
@@ -102,11 +103,11 @@ public class ListingController {
 	
 	@PutMapping("listings/cancel/{id}")
 	public ResponseEntity<Listing> cancelListing(@PathVariable(value="id") Long listingId,
-			@RequestBody long sellerId) throws ResourceNotFoundException{
+			@RequestBody UserIdData sellData) throws ResourceNotFoundException{
 		Listing listing = listingRepository.findById(listingId)
 				.orElseThrow(() -> new ResourceNotFoundException("Listing not found for this id :: " + listingId));
 		listing.setStatus("cancelled");
-		listing.setBuyerId(sellerId);
+		//listing.setBuyerId(sellData.getIdData());
 		//listing.setResolvedTime is called automatically
 		final Listing updatedListing = listingRepository.save(listing);
 		return ResponseEntity.ok(updatedListing);
