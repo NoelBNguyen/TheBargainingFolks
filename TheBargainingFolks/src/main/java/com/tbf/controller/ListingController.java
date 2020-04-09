@@ -38,7 +38,7 @@ public class ListingController {
 	
 	@GetMapping("/listings/active")
 	public List<Listing> getAllActiveListings(){
-		return listingRepository.findByStatusOrderByUploadTimeDesc("active");
+		return listingRepository.findByStatusOrderByUploadTimeAsc("active");
 	}
 	
 	@GetMapping("/listings/{id}")
