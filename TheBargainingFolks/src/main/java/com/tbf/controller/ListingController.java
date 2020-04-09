@@ -53,7 +53,7 @@ public class ListingController {
 	@GetMapping("/listings/search/{subStr}")
 	public List<Listing> getListingBySearch(@PathVariable(value="subStr") String search) throws ResourceNotFoundException {
 		
-		List<Listing> allResults = listingRepository.findAll();
+		List<Listing> allResults = listingRepository.findByStatusOrderByUploadTimeAsc("active");
 		List<Listing> searchResults = new ArrayList<Listing>();
 		
 		for(Listing result : allResults) {
