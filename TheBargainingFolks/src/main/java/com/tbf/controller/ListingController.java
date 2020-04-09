@@ -36,6 +36,11 @@ public class ListingController {
 		return listingRepository.findAll();
 	}
 	
+	@GetMapping("/listings/active")
+	public List<Listing> getAllActiveListings(){
+		return listingRepository.findByStatusOrderByUploadTimeDesc("active");
+	}
+	
 	@GetMapping("/listings/{id}")
 	public ResponseEntity<Listing> getListingByID(@PathVariable(value="id") Long listingId)
 		throws ResourceNotFoundException{
@@ -65,6 +70,48 @@ public class ListingController {
 	public Listing createListing(@Valid @RequestBody Listing listing) {
 		return listingRepository.save(listing);
 	}
+	
+	
+	@PostMapping("/listings/selfactive")
+	public List<Listing> getOwnActiveListings(@RequestBody long userId){
+		return listingRepository.findBySellerIdAndStatusOrderByUploadTimeDesc(userId, "active");
+	}
+	
+	@PostMapping("/listings/selfsold")
+	public List<Listing> getOwnSoldListings(@RequestBody long userId){
+		return listingRepository.findBySellerIdAndStatusOrderByUploadTimeDesc(userId, "sold");
+	}
+	
+	@PostMapping("/listings/selfbought")
+	public List<Listing> getOwnBoughtListings(@RequestBody long userId){
+		return listingRepository.findByBuyerIdAndStatusOrderByUploadTimeDesc(userId, "active");
+	}
+	
+	
+	@PutMapping("listings/purchase/{id}")
+	public ResponseEntity<Listing> purchaseListing(@PathVariable(value="id") Long listingId,
+			@RequestBody long buyerId) throws ResourceNotFoundException{
+		Listing listing = listingRepository.findById(listingId)
+				.orElseThrow(() -> new ResourceNotFoundException("Listing not found for this id :: " + listingId));
+		listing.setStatus("sold");
+		listing.setBuyerId(buyerId);
+		//listing.setResolvedTime is called automatically
+		final Listing updatedListing = listingRepository.save(listing);
+		return ResponseEntity.ok(updatedListing);
+	}
+	
+	@PutMapping("listings/cancel/{id}")
+	public ResponseEntity<Listing> cancelListing(@PathVariable(value="id") Long listingId,
+			@RequestBody long sellerId) throws ResourceNotFoundException{
+		Listing listing = listingRepository.findById(listingId)
+				.orElseThrow(() -> new ResourceNotFoundException("Listing not found for this id :: " + listingId));
+		listing.setStatus("cancelled");
+		listing.setBuyerId(sellerId);
+		//listing.setResolvedTime is called automatically
+		final Listing updatedListing = listingRepository.save(listing);
+		return ResponseEntity.ok(updatedListing);
+	}
+	
 	
 	@PutMapping("/listings/{id}")
 	public ResponseEntity<Listing> updateListing(@PathVariable(value="id") Long listingId,
