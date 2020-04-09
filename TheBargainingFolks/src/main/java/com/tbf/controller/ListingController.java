@@ -74,18 +74,18 @@ public class ListingController {
 	
 	
 	@PostMapping("/listings/selfactive")
-	public List<Listing> getOwnActiveListings(@RequestBody long userId){
-		return listingRepository.findBySellerIdAndStatusOrderByUploadTimeAsc(userId, "active");
+	public List<Listing> getOwnActiveListings(@RequestBody UserIdData data){
+		return listingRepository.findBySellerIdAndStatusOrderByUploadTimeAsc(data.getIdData(), "active");
 	}
 	
 	@PostMapping("/listings/selfsold")
-	public List<Listing> getOwnSoldListings(@RequestBody long userId){
-		return listingRepository.findBySellerIdAndStatusOrderByUploadTimeAsc(userId, "sold");
+	public List<Listing> getOwnSoldListings(@RequestBody UserIdData data){
+		return listingRepository.findBySellerIdAndStatusOrderByUploadTimeAsc(data.getIdData(), "sold");
 	}
 	
 	@PostMapping("/listings/selfbought")
-	public List<Listing> getOwnBoughtListings(@RequestBody long userId){
-		return listingRepository.findByBuyerIdAndStatusOrderByUploadTimeAsc(userId, "active");
+	public List<Listing> getOwnBoughtListings(@RequestBody UserIdData data){
+		return listingRepository.findByBuyerIdAndStatusOrderByUploadTimeAsc(data.getIdData(), "sold");
 	}
 	
 	
@@ -95,6 +95,7 @@ public class ListingController {
 		Listing listing = listingRepository.findById(listingId)
 				.orElseThrow(() -> new ResourceNotFoundException("Listing not found for this id :: " + listingId));
 		listing.setStatus("sold");
+		System.out.println(buyObj.getIdData());
 		listing.setBuyerId(buyObj.getIdData());
 		//listing.setResolvedTime is called automatically
 		final Listing updatedListing = listingRepository.save(listing);
