@@ -74,12 +74,12 @@ public class ListingController {
 	
 	@PostMapping("/listings/selfactive")
 	public List<Listing> getOwnActiveListings(@RequestBody long userId){
-		return listingRepository.findBySellerIdAndStatusOrderByUploadTimeDesc(userId, "active");
+		return listingRepository.findBySellerIdAndStatusOrderByUploadTimeAsc(userId, "active");
 	}
 	
 	@PostMapping("/listings/selfsold")
 	public List<Listing> getOwnSoldListings(@RequestBody long userId){
-		return listingRepository.findBySellerIdAndStatusOrderByUploadTimeDesc(userId, "sold");
+		return listingRepository.findBySellerIdAndStatusOrderByUploadTimeAsc(userId, "sold");
 	}
 	
 	@PostMapping("/listings/selfbought")
