@@ -84,7 +84,7 @@ public class ListingController {
 	
 	@PostMapping("/listings/selfbought")
 	public List<Listing> getOwnBoughtListings(@RequestBody long userId){
-		return listingRepository.findByBuyerIdAndStatusOrderByUploadTimeDesc(userId, "active");
+		return listingRepository.findByBuyerIdAndStatusOrderByUploadTimeAsc(userId, "active");
 	}
 	
 	
